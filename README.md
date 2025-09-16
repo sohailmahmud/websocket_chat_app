@@ -5,7 +5,7 @@ A real-time chat application built with Flutter using WebSocket connections, BLo
 
 ![Dart](https://img.shields.io/badge/Dart-0175C2?style=flat&logo=dart&logoColor=white)
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=flat&logo=flutter&logoColor=white)
-![BLoC](https://tinyurl.com/bloc-library?style=flat&logo=flutter&logoColor=white)
+![BLoC](https://img.shields.io/badge/BLoC-02569B?style=flat&logo=flutter&logoColor=white)
 ![WebSocket](https://img.shields.io/badge/WebSocket-010101?style=flat&logo=socket.io&logoColor=white)
 [![Coverage Status](https://coveralls.io/repos/github/sohailmahmud/websocket_chat_app/badge.svg?branch=main)](https://coveralls.io/github/sohailmahmud/websocket_chat_app?branch=main)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
