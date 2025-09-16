@@ -38,7 +38,7 @@ void main() {
           home: Scaffold(
             body: BlocProvider.value(
               value: chatBloc,
-              child: ConnectionButton(),
+              child: const ConnectionButton(),
             ),
           ),
         ),

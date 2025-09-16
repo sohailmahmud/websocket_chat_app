@@ -6,7 +6,7 @@ void main() {
   group('MessageInput Widget', () {
     testWidgets('renders input and button', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: MessageInput(enabled: true),
           ),

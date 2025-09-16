@@ -104,10 +104,10 @@ LF:43
 LH:34
 end_of_record
 SF:lib/features/chat/presentation/bloc/chat_state.dart
-DA:4,4
+DA:4,3
 DA:6,1
 DA:7,1
-DA:17,2
+DA:17,1
 DA:19,1
 DA:20,2
 DA:28,1
@@ -224,7 +224,7 @@ LF:31
 LH:31
 end_of_record
 SF:lib/features/chat/presentation/widgets/connection_button.dart
-DA:6,2
+DA:6,1
 DA:8,2
 DA:9,2
 DA:17,2
