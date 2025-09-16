@@ -11,9 +11,15 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFECE5DD), // WhatsApp chat background
       appBar: AppBar(
-        title: const Text('WebSocket Chat'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text(
+          'WebSocket Chat',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: const Color(0xFF075E54), // WhatsApp green
+        foregroundColor: Colors.white,
+        elevation: 0,
         actions: [
           BlocBuilder<ChatBloc, ChatState>(
             builder: (context, state) {
@@ -92,7 +98,7 @@ class ChatPage extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          const Text('Connected'),
+          const Text('Connected', style: TextStyle(color: Colors.white)),
         ],
       );
     } else if (state is ChatConnecting) {
@@ -108,7 +114,7 @@ class ChatPage extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          const Text('Connecting...'),
+          const Text('Connecting...', style: TextStyle(color: Colors.white)),
         ],
       );
     } else {
@@ -124,7 +130,7 @@ class ChatPage extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          const Text('Disconnected'),
+          const Text('Disconnected', style: TextStyle(color: Colors.white)),
         ],
       );
     }

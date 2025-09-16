@@ -14,47 +14,83 @@ class MessageList extends StatelessWidget {
       itemBuilder: (context, index) {
         final message = messages[messages.length - 1 - index];
         final isMe = message.sender == 'You';
-        
+
+        // WhatsApp-like colors
+        const outgoingColor = Color(0xFFE7FFDB); // light green
+        final incomingColor = Colors.white;
+        final bubbleColor = isMe ? outgoingColor : incomingColor;
+        final textColor = Colors.black87;
+
         return Container(
           margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment:
                 isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
             children: [
-              Flexible(
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.75,
+                ),
                 child: Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                    color: isMe ? Colors.blue : Colors.grey[300],
-                    borderRadius: BorderRadius.circular(8),
+                    color: bubbleColor,
+                    borderRadius: isMe
+                        ? const BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16),
+                            bottomLeft: Radius.circular(16),
+                            bottomRight: Radius.circular(4), // "tail" cut
+                          )
+                        : const BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16),
+                            bottomLeft: Radius.circular(4), // "tail" cut
+                            bottomRight: Radius.circular(16),
+                          ),
+                    border: isMe
+                        ? null
+                        : Border.all(color: Colors.grey.shade300),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      )
+                    ],
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (!isMe) ...[
-                        Text(
-                          message.sender,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                            color: isMe ? Colors.white70 : Colors.black54,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                      ],
+                      // Message text
                       Text(
                         message.content,
-                        style: TextStyle(
-                          color: isMe ? Colors.white : Colors.black87,
-                        ),
+                        style: TextStyle(color: textColor, fontSize: 15),
                       ),
                       const SizedBox(height: 4),
-                      Text(
-                        _formatTimestamp(message.timestamp),
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: isMe ? Colors.white70 : Colors.black54,
-                        ),
+                      // Timestamp (and ticks for outgoing) aligned to bottom-right inside bubble
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            _formatTimestamp(message.timestamp),
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                          if (isMe) ...[
+                            const SizedBox(width: 4),
+                            Icon(
+                              Icons.done_all,
+                              size: 16,
+                              color: Colors.grey.shade600,
+                            ),
+                          ],
+                        ],
                       ),
                     ],
                   ),

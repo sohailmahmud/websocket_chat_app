@@ -19,8 +19,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'WebSocket Chat',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF075E54)),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF075E54),
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
+        scaffoldBackgroundColor: Color(0xFFECE5DD),
       ),
       home: BlocProvider(
         create: (_) => di.sl<ChatBloc>(),

@@ -4,7 +4,7 @@ import 'package:websocket_chat_app/features/chat/presentation/widgets/message_in
 
 void main() {
   group('MessageInput Widget', () {
-    testWidgets('renders input and button', (WidgetTester tester) async {
+    testWidgets('renders input and action button', (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -13,8 +13,11 @@ void main() {
         ),
       );
 
-  expect(find.byType(TextField), findsOneWidget);
-  expect(find.byType(IconButton), findsOneWidget);
+      // WhatsApp-like input should include a TextField
+      expect(find.byType(TextField), findsOneWidget);
+
+      // And at least one IconButton (emoji/attach/camera or action button)
+      expect(find.byType(IconButton), findsWidgets);
     });
   });
 }
