@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/chat_bloc.dart';
 
 class ConnectionButton extends StatefulWidget {
-  const ConnectionButton({Key? key}) : super(key: key);
+  const ConnectionButton({super.key});
 
   @override
   State<ConnectionButton> createState() => _ConnectionButtonState();

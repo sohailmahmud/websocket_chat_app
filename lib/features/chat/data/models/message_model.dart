@@ -3,16 +3,11 @@ import '../../domain/entities/message.dart';
 
 class MessageModel extends Message {
   const MessageModel({
-    required String id,
-    required String content,
-    required String sender,
-    required DateTime timestamp,
-  }) : super(
-          id: id,
-          content: content,
-          sender: sender,
-          timestamp: timestamp,
-        );
+    required super.id,
+    required super.content,
+    required super.sender,
+    required super.timestamp,
+  });
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
     return MessageModel(

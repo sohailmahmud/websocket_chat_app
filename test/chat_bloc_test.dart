@@ -80,7 +80,7 @@ void main() {
       when(mockSendMessage.call(any)).thenAnswer((_) async => const Right(null));
       return chatBloc;
     },
-    seed: () => ChatConnected([]),
+    seed: () => const ChatConnected([]),
     act: (bloc) => bloc.add(const SendChatMessage('Hello')),
     expect: () => [isA<ChatConnected>()],
   );

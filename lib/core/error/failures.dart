@@ -9,9 +9,9 @@ abstract class Failure extends Equatable {
 }
 
 class WebSocketFailure extends Failure {
-  const WebSocketFailure([String? message]) : super(message);
+  const WebSocketFailure([super.message]);
 }
 
 class ConnectionFailure extends Failure {
-  const ConnectionFailure([String? message]) : super(message);
+  const ConnectionFailure([super.message]);
 }

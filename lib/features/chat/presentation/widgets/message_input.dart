@@ -6,7 +6,7 @@ import '../bloc/chat_bloc.dart';
 class MessageInput extends StatefulWidget {
   final bool enabled;
 
-  const MessageInput({Key? key, required this.enabled}) : super(key: key);
+  const MessageInput({super.key, required this.enabled});
 
   @override
   State<MessageInput> createState() => _MessageInputState();

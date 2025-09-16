@@ -4,7 +4,7 @@ import '../../domain/entities/message.dart';
 class MessageList extends StatelessWidget {
   final List<Message> messages;
 
-  const MessageList({Key? key, required this.messages}) : super(key: key);
+  const MessageList({super.key, required this.messages});
 
   @override
   Widget build(BuildContext context) {
