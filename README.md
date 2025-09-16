@@ -275,7 +275,7 @@ SOFTWARE.
 
 **Your Name**
 - GitHub: [@sohailmahmud](https://github.com/sohailmahmud)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/sohailmahmud)
+- LinkedIn: [LinkedIn](https://linkedin.com/in/sohailmahmud)
 - Email: sohailmahmuud@gmail.com
 
 ## 🙏 Acknowledgments
@@ -295,9 +295,9 @@ SOFTWARE.
 
 If you have any questions or need help with the project:
 
-1. **Check the Issues**: Look through existing [GitHub Issues](https://github.com/yourusername/flutter-websocket-chat/issues)
+1. **Check the Issues**: Look through existing [GitHub Issues](https://github.com/sohailmahmud/websocket_chat_app/issues)
 2. **Create a New Issue**: If you can't find your answer, create a new issue
-3. **Discussions**: Use [GitHub Discussions](https://github.com/yourusername/flutter-websocket-chat/discussions) for general questions
+3. **Discussions**: Use [GitHub Discussions](https://github.com/sohailmahmud/websocket_chat_app/discussions) for general questions
 
 ---
 
