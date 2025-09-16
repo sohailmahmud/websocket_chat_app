@@ -7,6 +7,7 @@ class MessageModel extends Message {
     required super.content,
     required super.sender,
     required super.timestamp,
+    super.status,
   });
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
@@ -17,6 +18,7 @@ class MessageModel extends Message {
       timestamp: json['timestamp'] != null 
           ? DateTime.parse(json['timestamp'])
           : DateTime.now(),
+      status: _statusFromString(json['status']),
     );
   }
 
@@ -31,6 +33,7 @@ class MessageModel extends Message {
         content: data,
         sender: 'Server',
         timestamp: DateTime.now(),
+        status: MessageStatus.delivered,
       );
     }
   }
@@ -41,6 +44,17 @@ class MessageModel extends Message {
       'content': content,
       'sender': sender,
       'timestamp': timestamp.toIso8601String(),
+      'status': status.name,
     };
+  }
+
+  static MessageStatus _statusFromString(dynamic value) {
+    if (value is String) {
+      return MessageStatus.values.firstWhere(
+        (e) => e.name == value,
+        orElse: () => MessageStatus.sent,
+      );
+    }
+    return MessageStatus.sent;
   }
 }

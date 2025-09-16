@@ -36,6 +36,16 @@ class MessageReceived extends ChatEvent {
   List<Object> get props => [message];
 }
 
+class UpdateMessageStatus extends ChatEvent {
+  final String messageId;
+  final MessageStatus status;
+
+  const UpdateMessageStatus(this.messageId, this.status);
+
+  @override
+  List<Object> get props => [messageId, status];
+}
+
 class ErrorOccurred extends ChatEvent {
   final String error;
 

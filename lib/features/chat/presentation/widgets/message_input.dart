@@ -101,9 +101,9 @@ class _MessageInputState extends State<MessageInput> {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: widget.enabled
-                    ? theme.colorScheme.primary
-                    : theme.disabledColor.withOpacity(0.3),
+        color: widget.enabled
+          ? theme.colorScheme.primary
+          : theme.disabledColor.withValues(alpha: 0.3),
                 shape: BoxShape.circle,
               ),
               child: IconButton(

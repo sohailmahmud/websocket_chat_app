@@ -16,22 +16,42 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final theme = ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF075E54)),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Color(0xFF075E54),
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
+      scaffoldBackgroundColor: const Color(0xFFECE5DD),
+    );
+
+    final darkTheme = ThemeData(
+      brightness: Brightness.dark,
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color(0xFF005C4B),
+        brightness: Brightness.dark,
+      ),
+      scaffoldBackgroundColor: const Color(0xFF0B141A),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Color(0xFF1F2C34),
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
+    );
+
     return MaterialApp(
       title: 'WebSocket Chat',
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF075E54)),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF075E54),
-          foregroundColor: Colors.white,
-          elevation: 0,
-        ),
-        scaffoldBackgroundColor: Color(0xFFECE5DD),
-      ),
-      home: BlocProvider(
+      theme: theme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.system,
+      builder: (context, child) => BlocProvider(
         create: (_) => di.sl<ChatBloc>(),
-        child: const ChatPage(),
+        child: child,
       ),
+      home: const ChatPage(),
     );
   }
 }

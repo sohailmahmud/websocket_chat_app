@@ -82,6 +82,10 @@ void main() {
     },
     seed: () => const ChatConnected([]),
     act: (bloc) => bloc.add(const SendChatMessage('Hello')),
-    expect: () => [isA<ChatConnected>()],
+    // We now expect at least two emissions: sending -> sent (delivered/read may follow asynchronously)
+    expect: () => [
+      isA<ChatConnected>(), // with sending status
+      isA<ChatConnected>(), // with sent status
+    ],
   );
 }

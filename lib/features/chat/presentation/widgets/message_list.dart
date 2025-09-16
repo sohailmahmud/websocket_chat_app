@@ -15,11 +15,12 @@ class MessageList extends StatelessWidget {
         final message = messages[messages.length - 1 - index];
         final isMe = message.sender == 'You';
 
-        // WhatsApp-like colors
-        const outgoingColor = Color(0xFFE7FFDB); // light green
-        final incomingColor = Colors.white;
-        final bubbleColor = isMe ? outgoingColor : incomingColor;
-        final textColor = Colors.black87;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    // WhatsApp-like colors (light & dark variants)
+    final outgoingColor = isDark ? const Color(0xFF005C4B) : const Color(0xFFE7FFDB); // light green
+    final incomingColor = isDark ? const Color(0xFF202C33) : Colors.white;
+    final bubbleColor = isMe ? outgoingColor : incomingColor;
+    final textColor = isDark ? Colors.white : Colors.black87;
 
         return Container(
           margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -52,11 +53,11 @@ class MessageList extends StatelessWidget {
                     border: isMe
                         ? null
                         : Border.all(color: Colors.grey.shade300),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: Color.fromRGBO(0, 0, 0, 0.05),
                         blurRadius: 2,
-                        offset: const Offset(0, 1),
+                        offset: Offset(0, 1),
                       )
                     ],
                   ),
@@ -67,7 +68,7 @@ class MessageList extends StatelessWidget {
                       // Message text
                       Text(
                         message.content,
-                        style: TextStyle(color: textColor, fontSize: 15),
+                        style: TextStyle(fontSize: 15, color: textColor),
                       ),
                       const SizedBox(height: 4),
                       // Timestamp (and ticks for outgoing) aligned to bottom-right inside bubble
@@ -79,16 +80,12 @@ class MessageList extends StatelessWidget {
                             _formatTimestamp(message.timestamp),
                             style: TextStyle(
                               fontSize: 11,
-                              color: Colors.grey.shade600,
+                              color: isDark ? Colors.white70 : Colors.grey.shade600,
                             ),
                           ),
                           if (isMe) ...[
                             const SizedBox(width: 4),
-                            Icon(
-                              Icons.done_all,
-                              size: 16,
-                              color: Colors.grey.shade600,
-                            ),
+                            _buildStatusIcon(message.status, isDark),
                           ],
                         ],
                       ),
@@ -106,5 +103,27 @@ class MessageList extends StatelessWidget {
   String _formatTimestamp(DateTime timestamp) {
     return '${timestamp.hour.toString().padLeft(2, '0')}:'
         '${timestamp.minute.toString().padLeft(2, '0')}';
+  }
+
+  Widget _buildStatusIcon(MessageStatus status, bool isDark) {
+    switch (status) {
+      case MessageStatus.sending:
+        return SizedBox(
+          width: 16,
+          height: 16,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            valueColor: AlwaysStoppedAnimation<Color>(
+              isDark ? Colors.white54 : Colors.grey,
+            ),
+          ),
+        );
+      case MessageStatus.sent:
+        return Icon(Icons.check, size: 16, color: isDark ? Colors.white54 : Colors.grey.shade600);
+      case MessageStatus.delivered:
+        return Icon(Icons.done_all, size: 16, color: isDark ? Colors.white54 : Colors.grey.shade600);
+      case MessageStatus.read:
+        return const Icon(Icons.done_all, size: 16, color: Color(0xFF34B7F1));
+    }
   }
 }

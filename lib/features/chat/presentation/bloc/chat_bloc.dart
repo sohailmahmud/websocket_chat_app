@@ -55,21 +55,31 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       if (state is ChatConnected) {
         final currentState = state as ChatConnected;
         
+        // Optimistically add message with sending status
+        final tempMessage = Message(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          content: event.message,
+          sender: 'You',
+          timestamp: DateTime.now(),
+          status: MessageStatus.sending,
+        );
+        emit(ChatConnected([...currentState.messages, tempMessage]));
+
         final result = await sendMessage(SendMessageParams(message: event.message));
-        
+
         result.fold(
           (failure) => emit(ChatError(failure.message ?? 'Failed to send message')),
           (_) {
-            // Add the sent message to local state
-            final sentMessage = Message(
-              id: DateTime.now().millisecondsSinceEpoch.toString(),
-              content: event.message,
-              sender: 'You',
-              timestamp: DateTime.now(),
-            );
-            
-            final updatedMessages = [...currentState.messages, sentMessage];
-            emit(ChatConnected(updatedMessages));
+            // Promote to sent
+            add(UpdateMessageStatus(tempMessage.id, MessageStatus.sent));
+            // Simulate delivery after short delay
+            Future.delayed(const Duration(milliseconds: 400), () {
+              add(UpdateMessageStatus(tempMessage.id, MessageStatus.delivered));
+            });
+            // Simulate read after additional delay
+            Future.delayed(const Duration(seconds: 1), () {
+              add(UpdateMessageStatus(tempMessage.id, MessageStatus.read));
+            });
           },
         );
       }
@@ -79,6 +89,25 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       if (state is ChatConnected) {
         final currentState = state as ChatConnected;
         final updatedMessages = [...currentState.messages, event.message];
+        emit(ChatConnected(updatedMessages));
+      }
+    });
+
+    on<UpdateMessageStatus>((event, emit) {
+      if (state is ChatConnected) {
+        final currentState = state as ChatConnected;
+        final updatedMessages = currentState.messages.map((m) {
+          if (m.id == event.messageId) {
+            return Message(
+              id: m.id,
+              content: m.content,
+              sender: m.sender,
+              timestamp: m.timestamp,
+              status: event.status,
+            );
+          }
+          return m;
+        }).toList();
         emit(ChatConnected(updatedMessages));
       }
     });
