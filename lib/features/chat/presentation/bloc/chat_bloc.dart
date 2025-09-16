@@ -111,6 +111,35 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         emit(ChatConnected(updatedMessages));
       }
     });
+
+    // Typing indicator events
+    on<TypingStarted>((event, emit) {
+      if (state is ChatConnected) {
+        final currentState = state as ChatConnected;
+        if (!currentState.isOtherTyping) {
+          emit(currentState.copyWith(isOtherTyping: true));
+        }
+      }
+    });
+
+    on<TypingStopped>((event, emit) {
+      if (state is ChatConnected) {
+        final currentState = state as ChatConnected;
+        if (currentState.isOtherTyping) {
+          emit(currentState.copyWith(isOtherTyping: false));
+        }
+      }
+    });
+
+    // Presence updates
+    on<PresenceUpdated>((event, emit) {
+      if (state is ChatConnected) {
+        final currentState = state as ChatConnected;
+        if (currentState.isOtherOnline != event.isOnline) {
+          emit(currentState.copyWith(isOtherOnline: event.isOnline));
+        }
+      }
+    });
   }
 
   void _listenToMessages() {

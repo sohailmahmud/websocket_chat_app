@@ -46,6 +46,21 @@ class UpdateMessageStatus extends ChatEvent {
   List<Object> get props => [messageId, status];
 }
 
+class TypingStarted extends ChatEvent {
+  const TypingStarted();
+}
+
+class TypingStopped extends ChatEvent {
+  const TypingStopped();
+}
+
+class PresenceUpdated extends ChatEvent {
+  final bool isOnline;
+  const PresenceUpdated(this.isOnline);
+  @override
+  List<Object> get props => [isOnline];
+}
+
 class ErrorOccurred extends ChatEvent {
   final String error;
 

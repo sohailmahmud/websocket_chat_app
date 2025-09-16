@@ -13,25 +13,89 @@ class ChatPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFECE5DD), // WhatsApp chat background
       appBar: AppBar(
-        title: const Text(
-          'WebSocket Chat',
-          style: TextStyle(color: Colors.white),
-        ),
         backgroundColor: const Color(0xFF075E54), // WhatsApp green
         foregroundColor: Colors.white,
         elevation: 0,
-        actions: [
-          BlocBuilder<ChatBloc, ChatState>(
-            builder: (context, state) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: Center(
-                  child: _buildConnectionStatus(state),
+        title: BlocBuilder<ChatBloc, ChatState>(
+          builder: (context, state) {
+            String subtitle;
+            Color dotColor;
+
+            if (state is ChatConnecting) {
+              subtitle = 'Connecting...';
+              dotColor = Colors.orange;
+            } else if (state is ChatConnected) {
+              if (state.isOtherTyping) {
+                subtitle = 'typing...';
+              } else if (state.isOtherOnline) {
+                subtitle = 'online';
+              } else {
+                subtitle = 'offline';
+              }
+              dotColor = state.isOtherOnline ? Colors.green : Colors.grey;
+            } else if (state is ChatError) {
+              subtitle = 'error';
+              dotColor = Colors.red;
+            } else if (state is ChatDisconnected) {
+              subtitle = 'disconnected';
+              dotColor = Colors.red;
+            } else {
+              subtitle = 'idle';
+              dotColor = Colors.grey;
+            }
+
+            return Row(
+              children: [
+                const CircleAvatar(
+                  radius: 18,
+                  backgroundColor: Colors.white24,
+                  child: Icon(Icons.person, color: Colors.white),
                 ),
-              );
-            },
-          ),
-        ],
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        'WebSocket Chat',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: dotColor,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 250),
+                            transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
+                            child: Text(
+                              subtitle,
+                              key: ValueKey(subtitle),
+                              style: TextStyle(
+                                color: subtitle == 'typing...' ? Colors.white : Colors.white70,
+                                fontStyle: subtitle == 'typing...' ? FontStyle.italic : FontStyle.normal,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
       body: Column(
         children: [
@@ -84,55 +148,5 @@ class ChatPage extends StatelessWidget {
     );
   }
 
-  Widget _buildConnectionStatus(ChatState state) {
-    if (state is ChatConnected) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 8,
-            height: 8,
-            decoration: const BoxDecoration(
-              color: Colors.green,
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(width: 8),
-          const Text('Connected', style: TextStyle(color: Colors.white)),
-        ],
-      );
-    } else if (state is ChatConnecting) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 8,
-            height: 8,
-            decoration: const BoxDecoration(
-              color: Colors.orange,
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(width: 8),
-          const Text('Connecting...', style: TextStyle(color: Colors.white)),
-        ],
-      );
-    } else {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 8,
-            height: 8,
-            decoration: const BoxDecoration(
-              color: Colors.red,
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(width: 8),
-          const Text('Disconnected', style: TextStyle(color: Colors.white)),
-        ],
-      );
-    }
-  }
+  // Removed old _buildConnectionStatus method in favor of dynamic subtitle in AppBar
 }
