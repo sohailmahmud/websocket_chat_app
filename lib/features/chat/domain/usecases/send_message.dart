@@ -1,0 +1,20 @@
+import 'package:dartz/dartz.dart';
+import '../../../../core/error/failures.dart';
+import '../../../../core/usecases/usecase.dart';
+import '../repositories/chat_repository.dart';
+
+class SendMessage implements UseCase<void, SendMessageParams> {
+  final ChatRepository repository;
+
+  SendMessage(this.repository);
+
+  @override
+  Future<Either<Failure, void>> call(SendMessageParams params) async {
+    return await repository.sendMessage(params.message);
+  }
+}
+
+class SendMessageParams {
+  final String message;
+  SendMessageParams({required this.message});
+}
