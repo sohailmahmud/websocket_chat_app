@@ -69,8 +69,8 @@ lib/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/flutter-websocket-chat.git
-   cd flutter-websocket-chat
+   git clone https://github.com/sohailmahmud/websocket_chat_app.git
+   cd websocket_chat_app
    ```
 
 2. **Install dependencies**
